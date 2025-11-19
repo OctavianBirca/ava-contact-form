@@ -7,7 +7,7 @@
 
 	const i18n = window.avaContactForm && window.avaContactForm.i18n ? window.avaContactForm.i18n : {};
 	const requiredMessage = i18n.required || 'Veuillez remplir tous les champs obligatoires.';
-	const sendingMessage = i18n.sending || 'Envoi en cours...';
+	const sendingMessage = i18n.sending || 'Envoi en cours ...';
 	const successFallback = 'Merci pour votre message ! Nous revenons vers vous tres vite.';
 	const errorFallback = 'Une erreur est survenue. Merci de reessayer.';
 
