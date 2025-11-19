@@ -1,0 +1,111 @@
+.ava-contact-form {
+	background: #ffffff;
+	border-radius: 16px;
+	padding: 28px;
+	box-shadow: 0 20px 45px -30px rgba(15, 23, 42, 0.4);
+	font-family: "Inter", "Segoe UI", sans-serif;
+	display: grid;
+	gap: 18px;
+}
+
+.ava-contact-form__title {
+	margin: 0;
+	font-size: 1.65rem;
+	color: #111827;
+}
+
+.ava-contact-form__description {
+	margin: 6px 0 0;
+	color: #4b5563;
+}
+
+.ava-contact-form__notice {
+	padding: 12px 16px;
+	border-radius: 12px;
+	font-size: 0.95rem;
+}
+
+.ava-contact-form__notice--success {
+	background: rgba(16, 185, 129, 0.15);
+	color: #047857;
+}
+
+.ava-contact-form__notice--error {
+	background: rgba(239, 68, 68, 0.15);
+	color: #b91c1c;
+}
+
+.ava-contact-form__notice--warning {
+	background: rgba(234, 179, 8, 0.2);
+	color: #92400e;
+}
+
+.ava-contact-form__form {
+	display: grid;
+	gap: 16px;
+}
+
+.ava-contact-form__field {
+	display: grid;
+	gap: 6px;
+}
+
+.ava-contact-form__field label {
+	font-weight: 600;
+	color: #1f2937;
+}
+
+.ava-contact-form__field input,
+.ava-contact-form__field textarea {
+	padding: 12px 14px;
+	border-radius: 12px;
+	border: 1px solid rgba(148, 163, 184, 0.5);
+	font-size: 1rem;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ava-contact-form__field input:focus,
+.ava-contact-form__field textarea:focus {
+	outline: none;
+	border-color: #2563eb;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.ava-contact-form__submit {
+	border: none;
+	border-radius: 999px;
+	padding: 12px 26px;
+	font-weight: 600;
+	color: #ffffff;
+	background: linear-gradient(135deg, #004bfe, #001c7a);
+	cursor: pointer;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ava-contact-form__submit:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 12px 30px -20px rgba(0, 75, 254, 0.8);
+}
+
+.ava-contact-form__actions {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.ava-contact-form__field .is-invalid {
+	border-color: #ef4444;
+}
+
+@media (max-width: 640px) {
+	.ava-contact-form {
+		padding: 22px;
+	}
+
+	.ava-contact-form__actions {
+		justify-content: stretch;
+	}
+
+	.ava-contact-form__submit {
+		width: 100%;
+	}
+}
