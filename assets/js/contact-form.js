@@ -12,9 +12,12 @@
 	const errorFallback = 'Une erreur est survenue. Merci de reessayer.';
 
 	const showMessage = (wrapper, type, text) => {
+		console.log('AVA CF: showMessage called', { type, text });
 		const feedback = wrapper.querySelector('.ava-contact-form__feedback');
 
 		if (!feedback) {
+			console.error('AVA CF: Feedback element not found in wrapper', wrapper);
+			alert(text); // Fallback for debugging
 			return;
 		}
 
@@ -462,13 +465,17 @@
 		const formData = new FormData(form);
 		formData.append('action', 'ava_contact_form_submit');
 
+		console.log('AVA CF: Submitting form', Object.fromEntries(formData));
+
 		fetch(ajaxUrl, {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: formData,
 		})
 			.then(async (response) => {
+				console.log('AVA CF: Response received', response);
 				const payload = await response.json().catch(() => ({}));
+				console.log('AVA CF: Payload parsed', payload);
 
 				if (!response.ok || !payload.success) {
 					const errorText =
@@ -481,6 +488,7 @@
 				return payload;
 			})
 			.then(() => {
+				console.log('AVA CF: Success flow triggered');
 				const successText = wrapper.dataset.success || successFallback;
 				showMessage(wrapper, 'is-success', successText);
 				form.reset();
@@ -497,6 +505,7 @@
 				}
 			})
 			.catch((error) => {
+				console.error('AVA CF: Error flow triggered', error);
 				showMessage(wrapper, 'is-error', error.message);
 			})
 			.finally(() => {

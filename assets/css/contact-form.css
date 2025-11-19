@@ -230,7 +230,7 @@
 .ava-contact-form__feedback.is-success,
 .ava-contact-form__feedback.is-error,
 .ava-contact-form__feedback.is-pending {
-	display: block;
+	display: block !important;
 	padding: 16px 20px;
 }
 

@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       AVA Contact Form
  * Description:       Formulaire de contact universel pour Elementor avec gestion des demandes (Devis).
- * Version:           1.1.0
+ * Version:           1.1.1
  * Author:            AVA
  * Text Domain:       ava-contact-form
  * Domain Path:       /languages
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'AVA_CF_VERSION', '1.1.0' );
+define( 'AVA_CF_VERSION', '1.1.1' );
 define( 'AVA_CF_PATH', plugin_dir_path( __FILE__ ) );
 define( 'AVA_CF_URL', plugin_dir_url( __FILE__ ) );
 
