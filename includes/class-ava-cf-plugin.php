@@ -285,8 +285,14 @@ class Plugin {
 	public function handle_form_submission() {
 		check_ajax_referer( 'ava_contact_form_submit', 'nonce' );
 
+		error_log( 'AVA CF: Submission started' );
+
+
 		$payload = isset( $_POST['ava_cf_fields'] ) ? wp_unslash( $_POST['ava_cf_fields'] ) : '';
 		$form_schema = $this->parse_fields_payload( $payload );
+
+		error_log( 'AVA CF: Payload parsed. Fields count: ' . ( isset( $form_schema['fields'] ) ? count( $form_schema['fields'] ) : 0 ) );
+
 
 		if ( empty( $form_schema['fields'] ) ) {
 			wp_send_json_error(
@@ -318,6 +324,7 @@ class Plugin {
 		$errors = $this->validate_submission( $fields, $values );
 
 		if ( ! empty( $errors ) ) {
+			error_log( 'AVA CF: Validation errors: ' . print_r( $errors, true ) );
 			wp_send_json_error(
 				[
 					'message' => implode( ' ', $errors ),
@@ -386,6 +393,8 @@ class Plugin {
 
 		$subject = implode( ' - ', $subject_parts );
 
+		error_log( 'AVA CF: Attempting to send email to: ' . $recipient );
+
 		$email_sent = $this->send_email(
 			$recipient,
 			[
@@ -397,6 +406,7 @@ class Plugin {
 		);
 
 		if ( ! $email_sent ) {
+			error_log( 'AVA CF: Email sending FAILED' );
 			wp_send_json_error(
 				[
 					'message' => __( 'L\'envoi du message a echoue. Veuillez reessayer plus tard.', 'ava-contact-form' ),
@@ -540,6 +550,8 @@ class Plugin {
 	 */
 	private function send_email( $recipient, $message ) {
 		$settings = $this->admin->get_mailer_settings();
+		
+		error_log( 'AVA CF: Mailer settings: ' . print_r( $settings, true ) );
 
 		$subject = isset( $message['subject'] ) && $message['subject']
 			? $message['subject']
@@ -559,8 +571,11 @@ class Plugin {
 		$reply_to = isset( $message['reply_to'] ) && is_array( $message['reply_to'] ) ? $message['reply_to'] : [];
 
 		if ( 'smtp' === $settings['mailer'] ) {
+			error_log( 'AVA CF: Sending via SMTP' );
 			return $this->send_via_smtp( $recipient, $subject, $body, $reply_to, $settings['smtp'] );
 		}
+
+		error_log( 'AVA CF: Sending via WP Mail (Native)' );
 
 		$headers   = [];
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
@@ -577,7 +592,16 @@ class Plugin {
 		}
 
 		add_filter( 'wp_mail_content_type', [ $this, 'force_email_html' ] );
+		
+		// Log wp_mail failure details
+		add_action( 'wp_mail_failed', function( $error ) {
+			error_log( 'AVA CF: wp_mail_failed: ' . print_r( $error, true ) );
+		} );
+
 		$result = wp_mail( $recipient, $subject, $body, $headers );
+		
+		error_log( 'AVA CF: wp_mail result: ' . ( $result ? 'SUCCESS' : 'FAILURE' ) );
+		
 		remove_filter( 'wp_mail_content_type', [ $this, 'force_email_html' ] );
 
 		return $result;
